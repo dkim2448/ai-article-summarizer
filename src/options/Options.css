@@ -1,0 +1,337 @@
+/* 
+============================================================
+Options.css — styles for the api key settings page.
+imported directly into Options.jsx so Vite bundles it with the options page specifically, not the popup.
+matches the same design language as Popup.css.
+============================================================
+*/
+
+/* google fonts */
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap");
+
+/* 
+css custom properties (theme variables)
+same variables as Popup.css so both pages look consistent.
+.dark and .light are toggled on the root <div> in Options.jsx 
+*/
+.dark {
+	--bg-primary: #0e0e0f;
+	--bg-secondary: #161618;
+	--bg-hover: #1a1a1e;
+	--border-main: #2a2a2d;
+	--border-subtle: #1e1e21;
+	--text-primary: #c8c8d0;
+	--text-muted: #a0a0a8;
+	--text-faint: #555560;
+	--text-placeholder: #3a3a45;
+	--accent: #1273eb;
+	--accent-hover: #0d51a5;
+}
+
+.light {
+	--bg-primary: #f9f9fb;
+	--bg-secondary: #ffffff;
+	--bg-hover: #f0f0f4;
+	--border-main: #e2e2e8;
+	--border-subtle: #e8e8ee;
+	--text-primary: #3a3a4a;
+	--text-muted: #666674;
+	--text-faint: #b0b0be;
+	--text-placeholder: #c8c8d8;
+	--accent: #1273eb;
+	--accent-hover: #0d51a5;
+}
+
+/* reset and base */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+/* 
+page body
+unlike the popup which is a fixed 380px widget, the options page opens as a full browser tab, so we center the content with max-width and let it breathe with padding. the min-height fills the whole tab.
+*/
+body {
+	background: var(--bg-primary);
+	font-family: "IBM Plex Sans", sans-serif;
+	min-height: 100vh;
+}
+
+/* 
+root shell
+the theme class ("dark" or "light") lives on this div, same as in the popup — all CSS variables cascade down from here.
+*/
+.options {
+	background: var(--bg-primary);
+	min-height: 100vh;
+	transition: background 0.2s;
+}
+
+/* 
+header
+mirrors the popup header exactly so both pages feel like
+they belong to the same product.
+*/
+.options-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 14px 24px;
+	border-bottom: 0.5px solid var(--border-subtle);
+}
+
+/* container for "ai summarizer • settings" */
+.options-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+/* the same blue dot from the popup header */
+.title-dot {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--accent);
+	flex-shrink: 0;
+}
+
+/* "ai summarizer · settings" */
+.title-text {
+	font-family: "IBM Plex Mono", monospace;
+	font-size: 12px;
+	color: var(--text-muted);
+	letter-spacing: 0.08em;
+}
+
+/* theme toggle button in the header */
+.icon-btn {
+	width: 30px;
+	height: 30px;
+	border-radius: 6px;
+	border: none;
+	background: transparent;
+	color: var(--text-faint);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition:
+		background 0.15s,
+		color 0.15s;
+	padding: 0;
+}
+
+.icon-btn:hover {
+	background: var(--bg-hover);
+	color: var(--text-muted);
+}
+
+/* 
+content area (main container)
+centers the card on the page with a comfortable max-width 
+*/
+.options-content {
+	max-width: 480px;
+	margin: 48px auto;
+	padding: 0 24px;
+}
+
+/* 
+section label → "gemini api key" text
+small monospace label above the input, like a terminal field label 
+*/
+.section-label {
+	font-family: "IBM Plex Mono", monospace;
+	font-size: 11px;
+	color: var(--text-muted);
+	letter-spacing: 0.08em;
+	margin-bottom: 10px;
+}
+
+/* 
+input group (container):
+wraps the text input and the eye/toggle button together so the button can be positioned inside the input's right edge 
+*/
+.input-group {
+	position: relative;
+	margin-bottom: 10px;
+}
+
+/* 
+api key input
+the main text field where the user pastes their key.
+padding-right: 44px leaves room for the eye toggle button. 
+*/
+.api-input {
+	width: 100%;
+	background: var(--bg-secondary);
+	border: 0.5px solid var(--border-main);
+	border-radius: 7px;
+	color: var(--text-primary);
+	font-family: "IBM Plex Mono", monospace;
+	font-size: 12px;
+	letter-spacing: 0.04em;
+	padding: 11px 44px 11px 14px;
+	outline: none;
+	transition: border-color 0.15s;
+}
+
+.api-input::placeholder {
+	color: var(--text-placeholder);
+}
+
+.api-input:focus {
+	border-color: var(--accent);
+}
+
+/* 
+eye toggle button
+sits inside the input on the right side to show/hide the key.
+position: absolute positions it relative to .input-group.
+*/
+.eye-btn {
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 26px;
+	height: 26px;
+	border: none;
+	background: transparent;
+	color: var(--text-faint);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	padding: 0;
+	transition: color 0.15s;
+}
+
+.eye-btn:hover {
+	color: var(--text-muted);
+}
+
+/* 
+helper text
+the small "get your key from..." link below the input 
+*/
+.helper-text {
+	font-size: 12px;
+	color: var(--text-faint);
+	margin-bottom: 20px;
+	line-height: 1.5;
+}
+
+.helper-text a {
+	color: var(--accent);
+	text-decoration: none;
+}
+
+.helper-text a:hover {
+	text-decoration: underline;
+}
+
+/* 
+save button
+same style as the summarize button in the popup 
+*/
+.save-btn {
+	width: 100%;
+	background: var(--accent);
+	border: none;
+	border-radius: 7px;
+	color: #ffffff;
+	font-family: "IBM Plex Mono", monospace;
+	font-size: 11px;
+	font-weight: 500;
+	letter-spacing: 0.06em;
+	padding: 11px;
+	cursor: pointer;
+	transition:
+		background 0.15s,
+		transform 0.1s,
+		opacity 0.15s;
+}
+
+.save-btn:hover {
+	background: var(--accent-hover);
+}
+
+.save-btn:active {
+	transform: scale(0.98);
+}
+
+/* disabled while saving */
+.save-btn:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+	transform: none;
+}
+
+/* 
+status message
+shown below the save button after an attempt.
+color changes based on whether it's a success or error. 
+*/
+.status-msg {
+	font-family: "IBM Plex Mono", monospace;
+	font-size: 11px;
+	letter-spacing: 0.04em;
+	margin-top: 12px;
+	text-align: center;
+}
+
+.status-msg.success {
+	color: #4caf82;
+}
+
+.status-msg.error {
+	color: #e05b5b;
+}
+
+/* 
+divider
+thin line separating the input section from the danger zone 
+*/
+.divider {
+	border: none;
+	border-top: 0.5px solid var(--border-subtle);
+	margin: 32px 0;
+}
+
+/* 
+danger zone
+the clear/delete key section at the bottom 
+*/
+.danger-label {
+	font-family: "IBM Plex Mono", monospace;
+	font-size: 11px;
+	color: var(--text-faint);
+	letter-spacing: 0.08em;
+	margin-bottom: 10px;
+}
+
+/* 
+clear button uses a red outline style instead of filled to signal destructive action without being alarming */
+.clear-btn {
+	width: 100%;
+	background: transparent;
+	border: 0.5px solid #e05b5b;
+	border-radius: 7px;
+	color: #e05b5b;
+	font-family: "IBM Plex Mono", monospace;
+	font-size: 11px;
+	letter-spacing: 0.06em;
+	padding: 11px;
+	cursor: pointer;
+	transition:
+		background 0.15s,
+		opacity 0.15s;
+}
+
+.clear-btn:hover {
+	background: rgba(224, 91, 91, 0.08);
+}

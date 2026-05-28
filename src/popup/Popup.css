@@ -1,0 +1,342 @@
+/* 
+============================================================
+Popup.css — styles for ai summarizer chrome extension popup
+imported directly into Popup.jsx so Vite bundles it with the popup
+============================================================ 
+*/
+
+/* google fonts */
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap");
+
+/* 
+css custom properties (theme variables)
+.dark and .light classes are toggled on the root <div>
+so every child automatically inherits the right colors 
+*/
+.dark {
+	--bg-primary: #0e0e0f;
+	--bg-secondary: #161618;
+	--bg-hover: #1a1a1e;
+	--border-main: #2a2a2d;
+	--border-subtle: #1e1e21;
+	--text-primary: #c8c8d0;
+	--text-muted: #a0a0a8;
+	--text-faint: #555560;
+	--text-placeholder: #3a3a45;
+	--accent: #1273eb;
+	--accent-hover: #0d51a5;
+}
+
+.light {
+	--bg-primary: #f9f9fb;
+	--bg-secondary: #ffffff;
+	--bg-hover: #f0f0f4;
+	--border-main: #e2e2e8;
+	--border-subtle: #e8e8ee;
+	--text-primary: #3a3a4a;
+	--text-muted: #666674;
+	--text-faint: #b0b0be;
+	--text-placeholder: #c8c8d8;
+	--accent: #1273eb;
+	--accent-hover: #0d51a5;
+}
+
+/* reset and base */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+/* 
+root popup shell
+width is fixed at 380px because chrome extension popups
+don't resize dynamically like normal web pages 
+*/
+.popup {
+	width: 380px;
+	background: var(--bg-primary);
+	font-family: "IBM Plex Sans", sans-serif;
+	transition: background 0.2s;
+}
+
+/* header */
+.popup-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 14px 16px;
+	border-bottom: 0.5px solid var(--border-subtle);
+}
+
+/* container for the title: "ai summarizer" */
+.popup-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+/* the little blue dot next to the title */
+.title-dot {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--accent);
+
+	/* prevent shrinking of the circle: */
+	flex-shrink: 0;
+}
+
+/* "ai summarizer" text: */
+.title-text {
+	font-family: "IBM Plex Mono", monospace;
+	font-size: 12px;
+	color: var(--text-muted);
+	letter-spacing: 0.08em;
+}
+
+/* icon button container in the header (moon + gear) */
+.header-icons {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.icon-btn {
+	width: 28px;
+	height: 28px;
+	border-radius: 6px;
+	border: none;
+	background: transparent;
+	color: var(--text-faint);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition:
+		background 0.15s,
+		color 0.15s;
+	padding: 0;
+}
+
+.icon-btn:hover {
+	background: var(--bg-hover);
+	color: var(--text-muted);
+}
+
+/* 
+lucide-icons inherit size from their parent svg props, but we lock it here as a safety net 
+*/
+.icon-btn svg {
+	width: 15px;
+	height: 15px;
+}
+
+/* body (container surrounding dropdown, summarize button, result) */
+.popup-body {
+	padding: 16px;
+}
+
+/* controls row (container, surrounding dropdown + summarize button) */
+.controls-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 14px;
+}
+
+/* wrapper container needed to position the custom arrow over the select */
+.select-wrap {
+	position: relative;
+	flex: 1;
+}
+
+.select-wrap select {
+	width: 100%;
+	appearance: none;
+	-webkit-appearance: none;
+	background: var(--bg-secondary);
+	border: 0.5px solid var(--border-main);
+	border-radius: 7px;
+	color: var(--text-primary);
+	font-family: "IBM Plex Mono", monospace;
+	font-size: 11px;
+	letter-spacing: 0.04em;
+	padding: 9px 28px 9px 12px;
+	cursor: pointer;
+	outline: none;
+	transition: border-color 0.15s;
+}
+
+.select-wrap select:focus {
+	border-color: var(--text-faint);
+}
+
+/* custom dropdown arrow overlaid on the right side of the select */
+.select-arrow {
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	pointer-events: none;
+	color: var(--text-faint);
+	display: flex;
+	align-items: center;
+}
+
+.select-arrow svg {
+	width: 12px;
+	height: 12px;
+}
+
+/* the main action button — always blue regardless of theme */
+.summarize-btn {
+	background: var(--accent);
+	border: none;
+	border-radius: 7px;
+	color: #ffffff;
+	font-family: "IBM Plex Mono", monospace;
+	font-size: 11px;
+	font-weight: 500;
+	letter-spacing: 0.06em;
+	padding: 9px 16px;
+	cursor: pointer;
+	white-space: nowrap;
+	transition:
+		background 0.15s,
+		transform 0.1s,
+		opacity 0.15s;
+}
+
+.summarize-btn:hover {
+	background: var(--accent-hover);
+}
+
+.summarize-btn:active {
+	transform: scale(0.97);
+}
+
+/* disabled state while loading */
+.summarize-btn:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+	transform: none;
+}
+
+/* result box */
+.result-box {
+	background: var(--bg-secondary);
+	border: 0.5px solid var(--border-main);
+	border-radius: 8px;
+	min-height: 160px;
+	display: flex;
+	flex-direction: column;
+}
+
+/* scrollable content area inside the result box */
+.result-content {
+	flex: 1;
+	padding: 14px;
+	max-height: 300px;
+	overflow-y: auto;
+}
+
+/* placeholder text shown before any summary is generated */
+.result-placeholder {
+	font-family: "IBM Plex Mono", monospace;
+	font-size: 11px;
+	color: var(--text-placeholder);
+	letter-spacing: 0.04em;
+}
+
+/* the actual summary text - a <span> surrounding variable `summary`: */
+.result-text {
+	font-size: 13px;
+	color: var(--text-primary);
+	line-height: 1.65;
+	white-space: pre-wrap;
+}
+
+/* error state text */
+.result-error {
+	font-family: "IBM Plex Mono", monospace;
+	font-size: 11px;
+	color: #e05b5b;
+	letter-spacing: 0.03em;
+	line-height: 1.6;
+}
+
+/* loading spinner, this is the div surrounding the spinner */
+.loading-wrap {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 120px;
+}
+
+.spinner {
+	width: 22px;
+	height: 22px;
+	border: 4px solid var(--border-main);
+	border-top-color: var(--accent);
+	border-radius: 50%;
+	animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* result footer (word count + copy button) */
+.result-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 8px 14px;
+	border-top: 0.5px solid var(--border-subtle);
+}
+
+.result-meta {
+	font-family: "IBM Plex Mono", monospace;
+	font-size: 10px;
+	color: var(--text-placeholder);
+	letter-spacing: 0.04em;
+}
+
+/* copy icon button in the footer */
+.copy-btn {
+	width: 26px;
+	height: 26px;
+	border-radius: 6px;
+	border: 0.5px solid var(--border-main);
+	background: var(--bg-primary);
+	color: var(--text-faint);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition:
+		background 0.15s,
+		color 0.15s,
+		border-color 0.15s;
+	padding: 0;
+}
+
+.copy-btn:hover {
+	background: var(--bg-hover);
+	color: var(--text-muted);
+	border-color: var(--text-faint);
+}
+
+/* briefly turns green on successful copy */
+.copy-btn.copied {
+	color: #4caf82;
+	border-color: #4caf82;
+}
+
+.copy-btn svg {
+	width: 13px;
+	height: 13px;
+}
