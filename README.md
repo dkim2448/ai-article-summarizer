@@ -1,6 +1,6 @@
 # ai article summarizer
 
-a minimal chrome extension that summarizes any article or webpage using the google gemini api. choose between brief, detailed, or bullet point summaries — all powered by your own api key.
+a minimalistic chrome extension that summarizes any article or webpage using the google gemini api. choose between brief, detailed, or bullet point summaries — all powered by your own api key.
 
 ![popup screenshot](popup-store.png)
 
@@ -39,7 +39,6 @@ a minimal chrome extension that summarizes any article or webpage using the goog
 ## getting started
 
 ### prerequisites
-- node.js
 - a google gemini api key — get one free at [ai.google.dev](https://ai.google.dev)
 
 ### local development
@@ -82,13 +81,7 @@ npm run build
 
 this extension does not collect or store any personal data. your api key is stored locally using chrome's built-in sync storage and is only used to make requests to the gemini api on your behalf.
 
-read the full [privacy policy](https://yourusername.github.io/ai-article-summarizer-privacy).
-
----
-
-## license
-
-mit
+read the full [privacy policy](https://dkim2448.github.io/ai-article-summarizer-privacy).
 
 ---
 
