@@ -1,8 +1,8 @@
 {
 	"manifest_version": 3,
 	"name": "AI Article Summarizer",
-	"version": "1.0",
-	"version_name": "1.0.0",
+	"version": "1.1",
+	"version_name": "1.1.0",
 	"description": "Summarize any article with your Google Gemini API key. Choose between brief, detailed, or bullet point summaries.",
 
 	"permissions": ["activeTab", "storage"],

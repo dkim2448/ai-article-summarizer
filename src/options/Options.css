@@ -51,7 +51,9 @@ same variables as Popup.css so both pages look consistent.
 
 /* 
 page body
-unlike the popup which is a fixed 380px widget, the options page opens as a full browser tab, so we center the content with max-width and let it breathe with padding. the min-height fills the whole tab.
+unlike the popup which is a fixed 380px widget, the options page 
+opens as a full browser tab, so we center the content with max-width 
+and let it breathe with padding. the min-height fills the whole tab.
 */
 body {
 	background: var(--bg-primary);
@@ -61,7 +63,8 @@ body {
 
 /* 
 root shell
-the theme class ("dark" or "light") lives on this div, same as in the popup — all CSS variables cascade down from here.
+the theme class ("dark" or "light") lives on this div, same
+as in the popup — all CSS variables cascade down from here.
 */
 .options {
 	background: var(--bg-primary);
@@ -151,9 +154,94 @@ small monospace label above the input, like a terminal field label
 	margin-bottom: 10px;
 }
 
+/*
+getting started steps
+ol with list-style: none lets us fully control the numbering ourselves
+via .step-number, instead of relying on browser default list styling.
+*/
+
+.steps-list {
+	list-style: none;
+	margin-bottom: 24px;
+}
+
+.steps-list li {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	margin-bottom: 10px;
+}
+
+/* the circular number badge before each step */
+.step-number {
+	flex-shrink: 0;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: var(--bg-secondary);
+	border: 0.5px solid var(--border-main);
+	color: var(--accent);
+	font-family: "IBM Plex Mono", monospace;
+	font-size: 11px;
+	font-weight: 500;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.step-text {
+	font-size: 13px;
+	color: var(--text-primary);
+	line-height: 1.5;
+	padding-top: 1px;
+}
+
+.step-text a {
+	color: var(--accent);
+	text-decoration: none;
+}
+
+.step-text a:hover {
+	text-decoration: underline;
+}
+
+/*
+privacy banner:
+styled distinctly from the rest of the page (accent-colored left border,
+icon) so it reads as a standalone reassurance, not just more body text.
+*/
+.privacy-banner {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	background: var(--bg-secondary);
+	border: 0.5px solid var(--border-main);
+	border-left: 2px solid var(--accent);
+	border-radius: 7px;
+	padding: 12px 14px;
+	margin-bottom: 28px;
+	color: var(--accent);
+}
+
+.privacy-banner svg {
+	flex-shrink: 0;
+	margin-top: 1px;
+}
+
+.privacy-banner p {
+	font-size: 12px;
+	color: var(--text-muted);
+	line-height: 1.55;
+}
+
+.privacy-banner strong {
+	color: var(--text-primary);
+}
+
 /* 
 input group (container):
-wraps the text input and the eye/toggle button together so the button can be positioned inside the input's right edge 
+wraps the text input and the eye/toggle button together 
+so the button can be positioned inside the input's right edge 
 */
 .input-group {
 	position: relative;
@@ -281,7 +369,8 @@ color changes based on whether it's a success or error.
 	font-size: 11px;
 	letter-spacing: 0.04em;
 	margin-top: 12px;
-	text-align: center;
+	line-height: 1.6;
+	text-align: left;
 }
 
 .status-msg.success {

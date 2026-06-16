@@ -8,13 +8,16 @@
 // 2. when the user clicks save, store the key in chrome's synced storage
 //
 // it also adds:
+// - a numbered step-by-step guide so new users know what to do
+// - a privacy disclaimer reassuring users their key/data stays local
 // - show/hide toggle for the api key input (eye icon)
 // - a clear button to delete the saved key
-// - light/dark theme toggle that stays in sync with the popup by reading/writing to chrome.storage.sync
+// - light/dark theme toggle that stays in sync with the popup by
+//   reading/writing to chrome.storage.sync
 // =============================================================================
 
 import { useState, useEffect } from "react";
-import { Moon, Sun, Eye, EyeOff } from "lucide-react";
+import { Moon, Sun, Eye, EyeOff, ShieldCheck } from "lucide-react";
 import "./Options.css";
 
 export default function Options() {
@@ -41,7 +44,8 @@ export default function Options() {
 	// =============================================================================
 	// useEffect with [] runs once after first render - like DOMContentLoaded.
 	// we read both theme and the api key from chrome.storage in one call.
-	// chrome.storage.sync.get() accepts an array of keys to fetch at once, which is more efficient than making two separate calls.
+	// chrome.storage.sync.get() accepts an array of keys to fetch at once, which
+	// is more efficient than making two separate calls.
 	useEffect(() => {
 		chrome.storage.sync.get(
 			["geminiApiKey", "theme"],
@@ -60,7 +64,8 @@ export default function Options() {
 	// =============================================================================
 	// TOGGLE THEME
 	// =============================================================================
-	// same logic as Popup.jsx - flips the theme and saves it to chrome.storage so both pages always read the same value.
+	// same logic as Popup.jsx - flips the theme and saves it to chrome.storage so
+	// both pages always read the same value.
 	function toggleTheme() {
 		setTheme((prev) => {
 			const next = prev === "dark" ? "light" : "dark";
@@ -73,11 +78,13 @@ export default function Options() {
 	// SAVE KEY
 	// =============================================================================
 	// handleSave writes the api key to chrome.storage.sync.
-	// async is declared here for consistency but the chrome.storage call uses a callback rather than a promise so await isn't needed
+	// async is declared here for consistency but the chrome.storage call uses
+	// a callback rather than a promise so await isn't needed
 	async function handleSave() {
 		const trimmed = apiKey.trim();
 
-		// if field is empty after trimming, show the error message and reset back to idle after 3 seconds so the user can retry.
+		// if field is empty after trimming, show the error message and reset back to idle
+		// after 3 seconds so the user can retry.
 		// return exits early so we don't attempt to save an empty string.
 		if (!trimmed) {
 			setSaveStatus("error");
@@ -88,11 +95,13 @@ export default function Options() {
 		// briefly flip the button to "saving..." while the write happens.
 		setSaveStatus("saving");
 
-		// chrome.storage.sync.set() writes the key to chrome's synced storage so it persists across sessions and syncs across the user's devices.
-		// the callback fires once the write completed - we show the success message then reset back to idle after 2 seconds.
+		// chrome.storage.sync.set() writes the key to chrome's synced storage so
+		// it persists across sessions and syncs across the user's devices.
+		// the callback fires once the write completed - we show the success message
+		// then reset back to idle after 2 seconds.
 		chrome.storage.sync.set({ geminiApiKey: trimmed }, () => {
 			setSaveStatus("saved");
-			setTimeout(() => setSaveStatus("idle"), 2000);
+			setTimeout(() => setSaveStatus("idle"), 4000);
 		});
 	}
 
@@ -148,6 +157,61 @@ export default function Options() {
       =============================================================================
       */}
 			<div className="options-content">
+				{/*
+        GETTING STARTED GUIDE:
+        placed above the input since this is the first thing a
+        confused new user needs - what to do, in order, before
+        they even start typing into the field below.
+        */}
+				<p className="section-label">IMPORTANT: getting started</p>
+
+				<ol className="steps-list">
+					<li>
+						<span className="step-number">1</span>
+						<span className="step-text">
+							get a free api key from{" "}
+							<a
+								href="https://ai.google.dev/gemini-api/docs/api-key"
+								target="_blank"
+								rel="noreferrer"
+							>
+								google ai studio
+							</a>
+						</span>
+					</li>
+
+					<li>
+						<span className="step-number">2</span>
+						<span className="step-text">
+							paste it into the field below and click save
+						</span>
+					</li>
+
+					<li>
+						<span className="step-number">3</span>
+						<span className="step-text">
+							click the extension icon, open any article, and hit summarize
+						</span>
+					</li>
+				</ol>
+
+				{/*
+        PRIVACY DISCLAIMER:
+        styled distinctly (icon + accent border) so it reads as 
+        reassurance rather than more text to skim past. directly
+        answers "is my data safe" before the user even asks.
+        */}
+				<div className="privacy-banner">
+					<ShieldCheck size={16} strokeWidth={1.8} />
+					<p>
+						this extension uses <strong>YOUR OWN</strong> gemini api key.
+						requests go directly from your browser to google — we never see,
+						store, or have access to your key or your data.
+					</p>
+				</div>
+
+				<hr className="divider" />
+
 				<p className="section-label">gemini api key</p>
 
 				{/* 
@@ -217,8 +281,12 @@ export default function Options() {
         =============================================================================
         */}
 				{saveStatus === "saved" && (
-					<p className="status-msg success">api key saved successfully.</p>
+					<p className="status-msg success">
+						saved! click the extension icon and try summarizing an article. you
+						can close this tab.
+					</p>
 				)}
+
 				{saveStatus === "error" && (
 					<p className="status-msg error">please enter a valid api key.</p>
 				)}
