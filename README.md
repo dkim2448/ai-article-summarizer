@@ -45,7 +45,7 @@ a minimalistic chrome extension that summarizes any article or webpage using the
 
 ```bash
 # clone the repo
-git clone https://github.com/yourusername/ai-article-summarizer.git
+git clone https://github.com/dkim2448/ai-article-summarizer.git
 cd ai-article-summarizer
 
 # install dependencies
@@ -70,7 +70,7 @@ npm run build
 
 ## usage
 
-1. install the extension from the [chrome web store](#)
+1. install the extension from the [chrome web store](https://chromewebstore.google.com/detail/ai-article-summarizer/fgobljoipipijjbenglnkkmdbdcbfkcc)
 2. click the extension icon and open settings with the gear icon
 3. paste your gemini api key and save
 4. navigate to any article and click summarize
