@@ -3,9 +3,9 @@
 	"name": "AI Article Summarizer",
 	"version": "1.0",
 	"version_name": "1.0.0",
-	"description": "Summarize any article using your own Google Gemini API key. A minimalistic extension that lets you choose between brief, detailed, or bullet point summaries.",
+	"description": "Summarize any article with your Google Gemini API key. Choose between brief, detailed, or bullet point summaries.",
 
-	"permissions": ["scripting", "activeTab", "storage"],
+	"permissions": ["activeTab", "storage"],
 
 	"icons": {
 		"16": "icon.png",
@@ -36,5 +36,5 @@
 
 	"options_page": "src/options/options.html",
 
-	"host_permissions": ["<all_urls>"]
+	"host_permissions": ["https://generativelanguage.googleapis.com/*"]
 }
